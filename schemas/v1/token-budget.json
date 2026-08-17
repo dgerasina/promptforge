@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Token budget v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "max_input", "reserved_mandatory", "reserved_output", "overflow"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "max_input": {"type": "integer", "minimum": 1},
+    "reserved_mandatory": {"type": "integer", "minimum": 1},
+    "reserved_output": {"type": "integer", "minimum": 1},
+    "overflow": {"enum": ["compact", "request-more-context", "stop"]}
+  }
+}

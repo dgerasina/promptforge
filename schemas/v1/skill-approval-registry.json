@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Repository skill approval registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "owner", "ordered_skill_ids", "approvals"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "owner": {"const": "owner-local"},
+    "ordered_skill_ids": {
+      "type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true,
+      "prefixItems": [
+        {"const": "create-calc-with-test-and-history"}, {"const": "debug-airflow-dag"},
+        {"const": "check-table-freshness"}, {"const": "trace-upstream-lineage"},
+        {"const": "trace-downstream-impact"}
+      ],
+      "items": false
+    },
+    "approvals": {
+      "type": "array", "minItems": 5, "maxItems": 5,
+      "items": {"$ref": "#/$defs/approval"}
+    }
+  },
+  "$defs": {
+    "approval": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "id", "version", "content_digest", "release_digest", "signature", "reviewer_set", "evals_passed"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "content_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "release_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "signature": {"type": "string", "pattern": "^repository:v1:[a-f0-9]{64}$"},
+        "reviewer_set": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "evals_passed": {"const": true}
+      }
+    }
+  }
+}

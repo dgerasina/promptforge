@@ -1,0 +1,39 @@
+{
+  "gateway_version": "1.0",
+  "synthetic": true,
+  "owner": "owner-local",
+  "cases": [
+    {
+      "id": "public-primary",
+      "content": "Public synthetic prompt.",
+      "classification": "public",
+      "primary_fail": false,
+      "expected_status": "ok",
+      "expected_endpoint": "cloud-primary"
+    },
+    {
+      "id": "internal-transform",
+      "content": "ivan.testov@example.com",
+      "classification": "internal",
+      "primary_fail": false,
+      "expected_status": "ok",
+      "expected_endpoint": "cloud-primary"
+    },
+    {
+      "id": "secret-deny",
+      "content": "sk-proj-FAKE-DO-NOT-USE-12345678901234567890",
+      "classification": "internal",
+      "primary_fail": false,
+      "expected_status": "deny",
+      "expected_endpoint": ""
+    },
+    {
+      "id": "safe-fallback",
+      "content": "Public fallback prompt.",
+      "classification": "public",
+      "primary_fail": true,
+      "expected_status": "ok",
+      "expected_endpoint": "cloud-fallback"
+    }
+  ]
+}

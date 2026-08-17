@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Production documentation report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "threat_model_version", "documents",
+    "passed_documents", "documents_digest", "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["passed", "blocked"]},
+    "threat_model_version": {"const": "threat-model-v1"},
+    "documents": {"type": "integer", "minimum": 1},
+    "passed_documents": {"type": "integer", "minimum": 0},
+    "documents_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "network_used": {"const": false}
+  }
+}

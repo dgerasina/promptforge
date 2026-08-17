@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Changed-files review result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "selected_files", "review"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "ok"},
+    "selected_files": {"type": "integer", "minimum": 1, "maximum": 100},
+    "review": {"$ref": "review-result.json"},
+    "provenance_receipt": {"$ref": "review-provenance-receipt.json"},
+    "documentation_impact": {"type": "object"},
+    "evidence_receipt": {"$ref": "review-evidence-receipt.json"},
+    "closure_context": {"$ref": "review-closure-context-receipt.json"}
+  }
+}

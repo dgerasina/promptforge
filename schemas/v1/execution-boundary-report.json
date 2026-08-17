@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Authenticated execution boundary check report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "boundary_version", "status", "cases", "allowed", "denied", "network_calls"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "boundary_version": {"const": "1.0.0"},
+    "status": {"enum": ["ok", "error"]},
+    "cases": {"type": "integer", "minimum": 7},
+    "allowed": {"type": "integer", "minimum": 3},
+    "denied": {"type": "integer", "minimum": 4},
+    "network_calls": {"const": 0}
+  }
+}

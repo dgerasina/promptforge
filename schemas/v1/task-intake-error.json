@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "promptforge://schemas/v1/task-intake-error.json",
+  "title": "Task intake generic error",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "intake_version", "status", "reason_code", "network_used"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "intake_version": {"const": "1.0.0"},
+    "status": {"const": "error"},
+    "reason_code": {"const": "task_intake_failed"},
+    "network_used": {"const": false}
+  }
+}

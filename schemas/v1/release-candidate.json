@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Release candidate acceptance v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "reason_codes", "source_digest", "release_scope", "gates", "skills", "agents", "final_evidence_status", "assurance_scope", "known_limitations", "release_digest", "gate_config_digest", "portability_digest", "product_version", "spec_version", "evidence", "network_used"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["accepted", "blocked"]},
+    "reason_codes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "source_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "release_scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tracked_files", "dirty_entries", "untracked_entries", "ignored_entries", "ignored_artifacts", "prohibited_files", "secret_text_files", "unreadable_text_files", "deploy_prefix", "private_state_excluded"],
+      "properties": {
+        "tracked_files": {"type": "integer", "minimum": 0},
+        "dirty_entries": {"type": "integer", "minimum": 0},
+        "untracked_entries": {"type": "integer", "minimum": 0},
+        "ignored_entries": {"type": "integer", "minimum": 0},
+        "ignored_artifacts": {"type": "integer", "minimum": 0},
+        "prohibited_files": {"type": "integer", "minimum": 0},
+        "secret_text_files": {"type": "integer", "minimum": 0},
+        "unreadable_text_files": {"type": "integer", "minimum": 0},
+        "deploy_prefix": {"const": "promptforge/"},
+        "private_state_excluded": {"const": true}
+      }
+    },
+    "gates": {
+      "type": "object", "additionalProperties": false,
+      "required": ["production_docs", "security", "e2e", "load", "portability", "secret_scan", "neutrality", "skills", "agent_catalog"],
+      "properties": {
+        "production_docs": {"enum": ["passed", "failed"]},
+        "security": {"type": "boolean"}, "e2e": {"type": "boolean"}, "load": {"type": "boolean"},
+        "portability": {"type": "boolean"}, "secret_scan": {"type": "boolean"},
+        "neutrality": {"enum": ["passed", "blocked"]}, "skills": {"type": "boolean"},
+        "agent_catalog": {"type": "boolean"}
+      }
+    },
+    "skills": {
+      "type": "object", "additionalProperties": false,
+      "required": ["approved", "detached_signatures", "eval_cases"],
+      "properties": {
+        "approved": {"type": "integer", "minimum": 0},
+        "detached_signatures": {"type": "integer", "minimum": 0},
+        "eval_cases": {"type": "integer", "minimum": 0}
+      }
+    },
+    "agents": {"type": "integer", "minimum": 1},
+    "final_evidence_status": {"enum": ["passed", "failed"]},
+    "assurance_scope": {"const": "repository_single_host_mvp"},
+    "known_limitations": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "release_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "gate_config_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "portability_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "product_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "spec_version": {"const": "platform-v1"},
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["security_cases", "security_failed", "e2e_iterations", "e2e_passed", "load_requests", "load_failures", "load_max_p95_ms"],
+      "properties": {
+        "security_cases": {"type": "integer", "minimum": 1}, "security_failed": {"type": "integer", "minimum": 0},
+        "e2e_iterations": {"type": "integer", "minimum": 1}, "e2e_passed": {"type": "integer", "minimum": 0},
+        "load_requests": {"type": "integer", "minimum": 1}, "load_failures": {"type": "integer", "minimum": 0},
+        "load_max_p95_ms": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "network_used": {"const": false}
+  }
+}

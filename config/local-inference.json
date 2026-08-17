@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "endpoint_id": "local-corporate-primary",
+  "provider": "local-chat-compatible",
+  "provider_model": "local-review-model",
+  "logical_model": "corporate-review",
+  "region": "on-prem",
+  "max_classification": "confidential",
+  "privacy_profile": "isolated-local",
+  "max_input_chars": 100000,
+  "max_output_tokens": 2048,
+  "max_output_bytes": 100000,
+  "timeout_seconds": 60,
+  "destination": "local"
+}

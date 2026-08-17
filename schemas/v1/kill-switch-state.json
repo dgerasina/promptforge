@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local kill switch state v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "engaged", "generation", "changed_by", "reason_code", "changed_at", "attestation"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "engaged": {"type": "boolean"},
+    "generation": {"type": "integer", "minimum": 0},
+    "changed_by": {"type": "string", "minLength": 1, "maxLength": 128},
+    "reason_code": {"type": "string", "minLength": 1, "maxLength": 128},
+    "changed_at": {"type": "integer", "minimum": 0},
+    "attestation": {"type": "string", "pattern": "^hmac-sha256:[a-f0-9]{64}$"}
+  }
+}

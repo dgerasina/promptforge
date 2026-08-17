@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "promptforge://schemas/v1/task-intake-result.json",
+  "title": "Privacy-first task intake result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "intake_version", "status", "reason_code", "task_kind", "task_digest",
+    "intent_digest", "candidate_task_kinds", "privacy", "plan", "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "intake_version": {"const": "1.0.0"},
+    "status": {"enum": ["ready", "blocked", "denied"]},
+    "reason_code": {"type": "string", "minLength": 1, "maxLength": 128},
+    "task_kind": {
+      "type": ["string", "null"],
+      "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z0-9-]+)+$"
+    },
+    "task_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "intent_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "candidate_task_kinds": {
+      "type": "array", "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z0-9-]+)+$"}
+    },
+    "privacy": {"$ref": "privacy-receipt.json"},
+    "plan": {"oneOf": [{"type": "null"}, {"$ref": "work-result.json"}]},
+    "network_used": {"const": false}
+  }
+}

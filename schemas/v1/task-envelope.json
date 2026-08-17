@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project_id", "principal", "task_kind", "trace_id"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "project_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "principal": {"$ref": "principal.json"},
+    "task_kind": {"type": "string", "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z0-9-]+)+$"},
+    "trace_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "model_id": "local-review-model",
+  "revision": "externally-provisioned",
+  "artifact_sha256": "",
+  "license_id": "Apache-2.0",
+  "source_uri": "https://models.example.invalid/externally-provisioned",
+  "status": "candidate",
+  "evaluation_suite_version": "local-review-v1",
+  "minimum_pass_rate": 0.9,
+  "maximum_unsafe_findings": 0
+}

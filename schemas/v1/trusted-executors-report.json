@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Trusted executors check report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "executor_version", "status", "catalog_task_kinds", "registered_task_kinds",
+    "mcp_read_task_kinds", "mutation_task_kinds", "blocked_without_adapter", "synthetic_fallback_forbidden",
+    "checks", "builder_calls", "external_hub_calls", "product_workspace_separated", "mutation_workspace_bound",
+    "mutation_target_bound", "mutation_validate_side_effect_free", "mutation_rollback_side_effect_free",
+    "network_calls", "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "executor_version": {"const": "1.0.0"},
+    "status": {"enum": ["ok", "error"]},
+    "catalog_task_kinds": {"type": "integer", "minimum": 16},
+    "registered_task_kinds": {"type": "integer", "minimum": 16},
+    "mcp_read_task_kinds": {"const": 6},
+    "mutation_task_kinds": {"const": 3},
+    "blocked_without_adapter": {"type": "integer", "minimum": 8},
+    "synthetic_fallback_forbidden": {"const": true},
+    "checks": {"const": 6},
+    "builder_calls": {"type": "integer", "minimum": 1},
+    "external_hub_calls": {"type": "integer", "minimum": 1},
+    "product_workspace_separated": {"const": true},
+    "mutation_workspace_bound": {"const": true},
+    "mutation_target_bound": {"const": true},
+    "mutation_validate_side_effect_free": {"const": true},
+    "mutation_rollback_side_effect_free": {"const": true},
+    "network_calls": {"const": 0},
+    "network_used": {"const": false}
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Anonymized efficiency metrics summary v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "metrics_version", "status", "samples", "input_tokens", "output_tokens",
+    "token_saving_ratio", "model_calls", "latency_ms", "agents_invoked", "skills_invoked",
+    "cache_hit_rate", "dedup_hit_rate", "privacy_redactions", "policy_denials", "review_findings",
+    "manual_approvals", "first_run_success_rate", "integrity_verified", "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "metrics_version": {"const": "efficiency-v1"},
+    "status": {"const": "ok"},
+    "samples": {"type": "integer", "minimum": 0},
+    "input_tokens": {"type": "integer", "minimum": 0},
+    "output_tokens": {"type": "integer", "minimum": 0},
+    "token_saving_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+    "model_calls": {"type": "integer", "minimum": 0},
+    "latency_ms": {"type": "number", "minimum": 0},
+    "agents_invoked": {"type": "integer", "minimum": 0},
+    "skills_invoked": {"type": "integer", "minimum": 0},
+    "cache_hit_rate": {"type": "number", "minimum": 0, "maximum": 1},
+    "dedup_hit_rate": {"type": "number", "minimum": 0, "maximum": 1},
+    "privacy_redactions": {"type": "integer", "minimum": 0},
+    "policy_denials": {"type": "integer", "minimum": 0},
+    "review_findings": {"type": "integer", "minimum": 0},
+    "manual_approvals": {"type": "integer", "minimum": 0},
+    "first_run_success_rate": {"type": "number", "minimum": 0, "maximum": 1},
+    "integrity_verified": {"const": true},
+    "network_used": {"const": false}
+  }
+}

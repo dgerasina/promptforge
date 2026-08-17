@@ -1,0 +1,17 @@
+[
+  {
+    "id": "safe-public", "owner": "owner-local", "synthetic": true,
+    "classification": "public", "content": "Published synthetic demo text.",
+    "expected_outcome": "allow"
+  },
+  {
+    "id": "blocked-secret", "owner": "owner-local", "synthetic": true,
+    "classification": "internal", "content": "sk-proj-FAKE-DO-NOT-USE-12345678901234567890",
+    "expected_outcome": "deny"
+  },
+  {
+    "id": "masked-pii", "owner": "owner-local", "synthetic": true,
+    "classification": "internal", "content": "Иван Тестов, ivan.testov@example.com, +1-202-555-0147, EMP-DEMO-0001",
+    "expected_outcome": "allow_with_transform"
+  }
+]

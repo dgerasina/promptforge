@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Token usage verification v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "store_version", "valid", "records", "last_digest"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "store_version": {"const": "1.0.0"},
+    "valid": {"type": "boolean"},
+    "records": {"type": "integer", "minimum": 0},
+    "last_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

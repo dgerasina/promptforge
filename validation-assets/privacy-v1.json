@@ -1,0 +1,39 @@
+{
+  "privacy_version": "1.0",
+  "synthetic": true,
+  "owner": "owner-local",
+  "cases": [
+    {
+      "id": "public-allow",
+      "content": "Published synthetic product documentation.",
+      "declared_classification": "public",
+      "context": {"synthetic": true, "destination": "external"},
+      "expected_outcome": "allow",
+      "expected_classification": "public"
+    },
+    {
+      "id": "secret-deny",
+      "content": "sk-proj-FAKE-DO-NOT-USE-12345678901234567890",
+      "declared_classification": "internal",
+      "context": {"synthetic": true, "destination": "external"},
+      "expected_outcome": "deny",
+      "expected_classification": "restricted"
+    },
+    {
+      "id": "synthetic-pii-transform",
+      "content": "ivan.testov@example.com +1-202-555-0147",
+      "declared_classification": "internal",
+      "context": {"synthetic": true, "destination": "external"},
+      "expected_outcome": "allow_with_transform",
+      "expected_classification": "internal"
+    },
+    {
+      "id": "unapproved-pii-deny",
+      "content": "person@corp.invalid",
+      "declared_classification": "internal",
+      "context": {"synthetic": false, "destination": "external"},
+      "expected_outcome": "deny",
+      "expected_classification": "restricted"
+    }
+  ]
+}

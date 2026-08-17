@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "governance-v1",
+  "project_id": "promptforge",
+  "administrators": [
+    {"id": "owner-local", "role": "owner"},
+    {"id": "maintainer-local", "role": "maintainer"}
+  ],
+  "capabilities": [
+    "docs.sync",
+    "mcp.approve",
+    "models.admit",
+    "operations.manage",
+    "policy.manage",
+    "privacy.rehydrate",
+    "roles.manage",
+    "skills.manage"
+  ]
+}

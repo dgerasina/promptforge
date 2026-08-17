@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent execution result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "task_kind", "trace_id", "skill_ref", "status", "reason_code", "output",
+    "changed_paths", "side_effect", "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "task_kind": {"type": "string", "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z0-9-]+)+$"},
+    "trace_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "skill_ref": {"type": "string", "minLength": 1, "maxLength": 256},
+    "status": {"enum": ["completed", "blocked"]},
+    "reason_code": {"type": "string", "minLength": 1, "maxLength": 128},
+    "output": {"type": "object"},
+    "changed_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "side_effect": {"type": "boolean"},
+    "network_used": {"type": "boolean"}
+  }
+}

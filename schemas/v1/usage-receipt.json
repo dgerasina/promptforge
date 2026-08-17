@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Token usage receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "project_id", "principal_id", "trace_id", "context_digest", "budget_digest",
+    "gateway_receipt_digest",
+    "candidate_input_tokens",
+    "selected_input_tokens", "billed_input_tokens", "cache_read_tokens", "cache_write_tokens",
+    "output_tokens", "mandatory_tokens", "candidate_items", "selected_items", "deduplicated_items",
+    "token_saving_ratio", "deduplication_ratio", "overflow_strategy", "privacy_reduction_tokens",
+    "transformation_overhead_tokens",
+    "attestation"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "project_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "principal_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "trace_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "context_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "budget_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "gateway_receipt_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "candidate_input_tokens": {"type": "integer", "minimum": 1},
+    "selected_input_tokens": {"type": "integer", "minimum": 1},
+    "billed_input_tokens": {"type": "integer", "minimum": 0},
+    "cache_read_tokens": {"type": "integer", "minimum": 0},
+    "cache_write_tokens": {"type": "integer", "minimum": 0},
+    "output_tokens": {"type": "integer", "minimum": 0},
+    "mandatory_tokens": {"type": "integer", "minimum": 1},
+    "candidate_items": {"type": "integer", "minimum": 1},
+    "selected_items": {"type": "integer", "minimum": 1},
+    "deduplicated_items": {"type": "integer", "minimum": 0},
+    "token_saving_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+    "deduplication_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+    "overflow_strategy": {"enum": ["compact", "request-more-context", "stop"]},
+    "privacy_reduction_tokens": {"type": "integer", "minimum": 0},
+    "transformation_overhead_tokens": {"type": "integer", "minimum": 0},
+    "attestation": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Review evidence loop check report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "loop_version", "status", "outcomes_recorded", "restart_verified", "tamper_detected",
+    "network_calls"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "loop_version": {"const": "1.0.0"},
+    "status": {"enum": ["ok", "error"]},
+    "outcomes_recorded": {"const": 2},
+    "restart_verified": {"const": true},
+    "tamper_detected": {"const": true},
+    "network_calls": {"const": 0}
+  }
+}

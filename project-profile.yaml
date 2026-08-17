@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "public-starter",
+  "project_key": "promptforge",
+  "pack": "packs/public-starter/pack.yaml"
+}

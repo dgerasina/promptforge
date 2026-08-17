@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Repository index v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "project_key", "config_digest", "summary", "files", "index_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "project_key": {"type": "string", "minLength": 1, "maxLength": 128},
+    "config_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["files", "bytes", "by_extension"],
+      "properties": {
+        "files": {"type": "integer", "minimum": 0},
+        "bytes": {"type": "integer", "minimum": 0},
+        "by_extension": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "extension", "size_bytes", "content_digest"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1, "maxLength": 1024},
+          "extension": {"type": "string", "minLength": 1, "maxLength": 32},
+          "size_bytes": {"type": "integer", "minimum": 0},
+          "content_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+        }
+      }
+    },
+    "index_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+  }
+}

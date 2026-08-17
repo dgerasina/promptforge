@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Review closure context receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "parent_review_id", "context_digest", "expires_at"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "parent_review_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "context_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "expires_at": {"type": "integer", "minimum": 0}
+  }
+}

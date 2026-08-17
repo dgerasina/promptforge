@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "max_input": 40000,
+  "reserved_mandatory": 8000,
+  "reserved_output": 6000,
+  "overflow": "compact"
+}

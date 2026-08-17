@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local state cleanup receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "scope", "removed_files", "retained_files", "targets_digest",
+    "kill_switch_generation", "completed_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["planned", "completed"]},
+    "scope": {"const": "ephemeral"},
+    "removed_files": {"type": "integer", "minimum": 0},
+    "retained_files": {"type": "integer", "minimum": 0},
+    "targets_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "kill_switch_generation": {"type": "integer", "minimum": 1},
+    "completed_at": {"type": "integer", "minimum": 0}
+  }
+}

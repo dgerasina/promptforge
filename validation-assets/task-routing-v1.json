@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "catalog_version": "1.0.0",
+  "cases": [
+    {
+      "id": "review-engineer", "principal_id": "fixture-engineer", "role": "engineer",
+      "task_kind": "review.changed-files", "trace_id": "route-review", "expected_outcome": "selected",
+      "expected_reason_code": "exact_task_role_match", "expected_agent_id": "portable-review",
+      "expected_agent_version": "1.0.0", "expected_skill_refs": [],
+      "expected_capabilities": ["repository.read"], "expected_review_agent_id": null
+    },
+    {
+      "id": "confluence-engineer", "principal_id": "fixture-engineer", "role": "engineer",
+      "task_kind": "confluence.search", "trace_id": "route-confluence", "expected_outcome": "selected",
+      "expected_reason_code": "exact_task_role_match", "expected_agent_id": "confluence-search-agent",
+      "expected_agent_version": "1.0.0", "expected_skill_refs": [],
+      "expected_capabilities": ["confluence.read"], "expected_review_agent_id": "portable-review"
+    },
+    {
+      "id": "jira-analyst", "principal_id": "fixture-analyst", "role": "analyst",
+      "task_kind": "jira.read", "trace_id": "route-jira", "expected_outcome": "selected",
+      "expected_reason_code": "exact_task_role_match", "expected_agent_id": "jira-read-agent",
+      "expected_agent_version": "1.0.0", "expected_skill_refs": [],
+      "expected_capabilities": ["jira.read"], "expected_review_agent_id": "portable-review"
+    },
+    {
+      "id": "docs-owner", "principal_id": "fixture-owner", "role": "owner",
+      "task_kind": "documentation.sync", "trace_id": "route-docs", "expected_outcome": "selected",
+      "expected_reason_code": "exact_task_role_match", "expected_agent_id": "documentation-sync-agent",
+      "expected_agent_version": "1.0.0", "expected_skill_refs": [],
+      "expected_capabilities": ["repository.read", "repository.write", "docs.generate"],
+      "expected_review_agent_id": "portable-review"
+    },
+    {
+      "id": "docs-analyst-denied", "principal_id": "fixture-analyst", "role": "analyst",
+      "task_kind": "documentation.sync", "trace_id": "route-deny", "expected_outcome": "denied",
+      "expected_reason_code": "role_not_allowed", "expected_agent_id": null, "expected_agent_version": null,
+      "expected_skill_refs": [], "expected_capabilities": [], "expected_review_agent_id": null
+    }
+  ]
+}

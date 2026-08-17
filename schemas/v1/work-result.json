@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Unified work result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "ux_version", "mode", "status", "reason_code", "task_kind", "principal_id", "role",
+    "agent", "skills", "required_capabilities", "review_agent_id", "stages", "required_inputs", "route_digest",
+    "execution", "authorization", "catalog_version", "catalog_digest", "plan_digest", "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "ux_version": {"const": "1.0"},
+    "mode": {"enum": ["preview", "execute"]},
+    "status": {"enum": ["ready", "completed", "blocked", "denied"]},
+    "reason_code": {"type": "string", "minLength": 1, "maxLength": 128},
+    "task_kind": {"type": "string", "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z0-9-]+)+$"},
+    "principal_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "role": {"enum": ["", "owner", "maintainer", "engineer", "analyst"]},
+    "agent": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object", "additionalProperties": false, "required": ["id", "version"],
+          "properties": {"id": {"type": "string"}, "version": {"type": "string"}}
+        }
+      ]
+    },
+    "skills": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "required_capabilities": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "review_agent_id": {"type": ["string", "null"]},
+    "stages": {
+      "type": "array", "minItems": 6, "maxItems": 6,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["id", "status", "automatic"],
+        "properties": {
+          "id": {"enum": ["resolve-identity", "route", "execute-skill", "changed-files-review", "documentation", "evidence"]},
+          "status": {"enum": ["complete", "ready", "planned", "blocked", "denied", "not-applicable"]},
+          "automatic": {"type": "boolean"}
+        }
+      }
+    },
+    "required_inputs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "route_digest": {"type": "string", "pattern": "^(|sha256:[0-9a-f]{64})$"},
+    "catalog_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "catalog_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "plan_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "execution": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_version", "status", "selected_files", "review", "provenance_receipt",
+            "documentation_impact", "evidence_receipt", "closure_context"
+          ],
+          "properties": {
+            "schema_version": {"const": "1.0"},
+            "status": {"const": "ok"},
+            "selected_files": {"type": "integer", "minimum": 1},
+            "review": {"$ref": "review-result.json"},
+            "provenance_receipt": {"$ref": "review-provenance-receipt.json"},
+            "documentation_impact": {"type": "object"},
+            "evidence_receipt": {"$ref": "review-evidence-receipt.json"},
+            "closure_context": {"$ref": "review-closure-context-receipt.json"}
+          }
+        },
+        {
+          "$ref": "agent-execution-result.json"
+        }
+      ]
+    },
+    "authorization": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "execution-authorization-receipt.json"}
+      ]
+    },
+    "network_used": {"type": "boolean"}
+  }
+}

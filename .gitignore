@@ -1,0 +1,10 @@
+.promptforge/
+__pycache__/
+*.pyc
+*.pyo
+*.sqlite3
+*.session
+*.cookie
+dist/
+build/
+*.egg-info/

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Documentation sync result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "document", "network_used"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "ok"},
+    "document": {"$ref": "docs-impact-report.json#/properties/documents/items"},
+    "network_used": {"const": false}
+  }
+}

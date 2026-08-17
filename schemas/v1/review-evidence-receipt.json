@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Review documentation audit evidence receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "loop_version", "provenance_receipt", "audit_receipt", "documentation_digest",
+    "final_outcome", "evidence_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "loop_version": {"const": "1.0.0"},
+    "provenance_receipt": {"$ref": "review-provenance-receipt.json"},
+    "audit_receipt": {"$ref": "audit-receipt.json"},
+    "documentation_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "final_outcome": {"enum": ["retained", "rolled-back"]},
+    "evidence_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

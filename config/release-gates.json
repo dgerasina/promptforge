@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "assurance_scope": "repository_single_host_mvp",
+  "required_gates": ["production_docs", "security", "e2e", "load", "skills", "agent_catalog", "neutrality", "portability", "secret_scan"],
+  "deploy_prefix": "promptforge/",
+  "excluded_roots": [".promptforge/"],
+  "prohibited_suffixes": [".sqlite", ".sqlite3", ".db", ".key", ".bin", ".gguf", ".safetensors"],
+  "network_allowed": false
+}

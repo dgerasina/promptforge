@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "promptforge://schemas/v1/routing-preview-report.json",
+  "title": "Exhaustive deterministic preview routing report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "catalog_version", "catalog_digest", "agents",
+    "route_combinations", "unique_plan_digests", "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "ok"},
+    "catalog_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "catalog_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "agents": {"type": "integer", "minimum": 1},
+    "route_combinations": {"type": "integer", "minimum": 1},
+    "unique_plan_digests": {"type": "integer", "minimum": 1},
+    "network_used": {"const": false}
+  }
+}

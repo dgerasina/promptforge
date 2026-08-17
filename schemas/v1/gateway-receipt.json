@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Gateway receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "reason_code", "trace_id", "logical_model", "endpoint_id", "provider",
+    "provider_model", "policy_outcome", "policy_version", "privacy_outcome", "fallback_count", "input_tokens",
+    "output_tokens", "identity_attestation", "destination"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["ok", "deny"]},
+    "reason_code": {"type": "string", "minLength": 1},
+    "trace_id": {"type": "string", "minLength": 1},
+    "logical_model": {"type": "string", "minLength": 1},
+    "endpoint_id": {"type": "string"},
+    "provider": {"type": "string"},
+    "provider_model": {"type": "string"},
+    "policy_outcome": {"enum": ["allow", "deny", "allow_with_transform", "approval_required"]},
+    "policy_version": {"type": "string", "minLength": 1},
+    "privacy_outcome": {"enum": ["allow", "deny", "allow_with_transform", "not_run"]},
+    "fallback_count": {"type": "integer", "minimum": 0},
+    "input_tokens": {"type": "integer", "minimum": 0},
+    "output_tokens": {"type": "integer", "minimum": 0},
+    "identity_attestation": {
+      "oneOf": [
+        {"const": ""},
+        {"type": "string", "pattern": "^hmac-sha256:[0-9a-f]{64}$"}
+      ]
+    },
+    "destination": {"enum": ["external", "local"]}
+  }
+}

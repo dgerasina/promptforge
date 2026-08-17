@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local operations config v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "ephemeral_targets", "protected_targets", "retention"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "ephemeral_targets": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z][a-z0-9-]*\\.sqlite3$"}
+    },
+    "protected_targets": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"enum": ["audit.sqlite3", "review-provenance.sqlite3"]}
+    },
+    "retention": {
+      "type": "object", "additionalProperties": false,
+      "required": ["debug_days", "placeholder_max_hours"],
+      "properties": {
+        "debug_days": {"type": "integer", "minimum": 1},
+        "placeholder_max_hours": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

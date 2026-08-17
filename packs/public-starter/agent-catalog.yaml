@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "catalog_version": "1.0.0",
+  "agents": [
+    {
+      "id": "portable-review",
+      "version": "1.0.0",
+      "status": "active",
+      "roles": [
+        "owner",
+        "maintainer",
+        "engineer",
+        "analyst"
+      ],
+      "task_kinds": [
+        "review.changed-files"
+      ],
+      "skill_refs": [],
+      "required_capabilities": [
+        "repository.read"
+      ],
+      "review_agent_id": null
+    },
+    {
+      "id": "confluence-search-agent",
+      "version": "1.0.0",
+      "status": "active",
+      "roles": [
+        "owner",
+        "maintainer",
+        "engineer",
+        "analyst"
+      ],
+      "task_kinds": [
+        "confluence.search"
+      ],
+      "skill_refs": [],
+      "required_capabilities": [
+        "confluence.read"
+      ],
+      "review_agent_id": "portable-review"
+    },
+    {
+      "id": "jira-read-agent",
+      "version": "1.0.0",
+      "status": "active",
+      "roles": [
+        "owner",
+        "maintainer",
+        "engineer",
+        "analyst"
+      ],
+      "task_kinds": [
+        "jira.read"
+      ],
+      "skill_refs": [],
+      "required_capabilities": [
+        "jira.read"
+      ],
+      "review_agent_id": "portable-review"
+    },
+    {
+      "id": "documentation-sync-agent",
+      "version": "1.0.0",
+      "status": "active",
+      "roles": [
+        "owner",
+        "maintainer"
+      ],
+      "task_kinds": [
+        "documentation.sync"
+      ],
+      "skill_refs": [],
+      "required_capabilities": [
+        "repository.read",
+        "repository.write",
+        "docs.generate"
+      ],
+      "review_agent_id": "portable-review"
+    },
+    {
+      "id": "confluence-snapshot-agent",
+      "version": "1.0.0",
+      "status": "active",
+      "roles": [
+        "owner",
+        "maintainer"
+      ],
+      "task_kinds": [
+        "confluence.snapshot"
+      ],
+      "skill_refs": [],
+      "required_capabilities": [
+        "confluence.read",
+        "docs.snapshot"
+      ],
+      "review_agent_id": "portable-review"
+    }
+  ],
+  "catalog_digest": "sha256:7d6323b4c287e5b94def6094deff0cba14b52435515d30d80ca7a649eefc740a"
+}

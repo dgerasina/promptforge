@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "portable-core-example",
+  "project_key": "example-project",
+  "pack": "pack.yaml"
+}

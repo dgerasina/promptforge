@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Documentation evidence projection v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "evidence_version", "targets", "current", "drift", "blocked", "network_used", "documents"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "evidence_version": {"const": "1.0.0"},
+    "targets": {"type": "integer", "minimum": 0},
+    "current": {"type": "integer", "minimum": 0},
+    "drift": {"type": "integer", "minimum": 0},
+    "blocked": {"type": "integer", "minimum": 0},
+    "network_used": {"const": false},
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["document_id", "status", "source_digest", "document_digest", "patch_digest", "reason_codes"],
+        "properties": {
+          "document_id": {"type": "string", "minLength": 1, "maxLength": 128},
+          "status": {"enum": ["current", "drift", "blocked"]},
+          "source_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+          "document_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+          "patch_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+          "reason_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

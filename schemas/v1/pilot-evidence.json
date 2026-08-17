@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Offline pilot evidence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "principal_id", "role", "stages", "usage", "review_findings", "audit",
+    "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "ok"},
+    "principal_id": {"type": "string", "minLength": 1},
+    "role": {"enum": ["owner", "maintainer", "engineer", "analyst"]},
+    "stages": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["login", "policy", "privacy", "model", "mcp", "review"],
+      "properties": {
+        "login": {"enum": ["allow", "deny"]},
+        "policy": {"enum": ["allow", "deny", "allow_with_transform", "approval_required"]},
+        "privacy": {"enum": ["allow", "deny", "allow_with_transform"]},
+        "model": {"enum": ["ok", "deny"]},
+        "mcp": {"enum": ["ok", "deny"]},
+        "review": {"enum": ["passed", "incomplete", "changes_requested"]}
+      }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_tokens", "output_tokens", "receipts", "durable_receipts", "candidate_input_tokens", "selected_input_tokens",
+        "token_saving_ratio", "deduplication_ratio", "privacy_reduction_tokens",
+        "transformation_overhead_tokens", "gateway_receipt_digest", "usage_store_valid"
+      ],
+      "properties": {
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "receipts": {"const": 1},
+        "durable_receipts": {"const": 1},
+        "candidate_input_tokens": {"type": "integer", "minimum": 1},
+        "selected_input_tokens": {"type": "integer", "minimum": 1},
+        "token_saving_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "deduplication_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "privacy_reduction_tokens": {"type": "integer", "minimum": 0},
+        "transformation_overhead_tokens": {"type": "integer", "minimum": 0},
+        "gateway_receipt_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "usage_store_valid": {"const": true}
+      }
+    },
+    "review_findings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["high", "medium", "low"],
+      "properties": {
+        "high": {"type": "integer", "minimum": 0},
+        "medium": {"type": "integer", "minimum": 0},
+        "low": {"type": "integer", "minimum": 0}
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valid", "events"],
+      "properties": {
+        "valid": {"type": "boolean"},
+        "events": {"type": "integer", "minimum": 0}
+      }
+    },
+    "network_used": {"const": false}
+  }
+}

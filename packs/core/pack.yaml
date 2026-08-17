@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "id": "core",
+  "description": "portable-core",
+  "integrations": [],
+  "skills": {"root": "skills", "approved_order": []},
+  "skill_approvals": null,
+  "agent_catalog": "agent-catalog.yaml",
+  "task_intents": "task-intents.json",
+  "repository_index": {
+    "include_roots": ["."],
+    "exclude_patterns": [
+      "**/__pycache__/**",
+      "**/.env",
+      "**/.env.*",
+      "**/*credential*",
+      "**/*secret*",
+      "**/*.pem",
+      "**/*.key",
+      ".git/**",
+      ".promptforge/**"
+    ],
+    "allowed_extensions": [".json", ".md", ".py", ".rst", ".sql", ".toml", ".yaml", ".yml"],
+    "output_path": ".promptforge/repository-index.yaml",
+    "max_files": 100000,
+    "max_file_bytes": 50000000
+  },
+  "review": {
+    "non_prod_suffixes": ["_test"],
+    "sandbox_names": [],
+    "sandbox_target_fields": [],
+    "surfaces": [
+      {"id": "spec", "extensions": [], "path_markers": ["spec"]},
+      {"id": "code", "extensions": [".py", ".java", ".js", ".ts"], "path_markers": []},
+      {"id": "sql", "extensions": [".sql", ".ddl"], "path_markers": []},
+      {"id": "config", "extensions": [".yaml", ".yml", ".json", ".toml"], "path_markers": []},
+      {"id": "schema", "extensions": [], "path_markers": ["schema"]},
+      {"id": "docs", "extensions": [".md", ".rst"], "path_markers": []},
+      {"id": "test", "extensions": [], "path_markers": ["test"]}
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Detached release candidate signature v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_digest", "source_digest", "signer_id", "key_id", "algorithm", "issued_at", "expires_at", "signature"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "manifest_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "source_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "signer_id": {"const": "owner-local"},
+    "key_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "algorithm": {"const": "ed25519-openssl-v1"},
+    "issued_at": {"type": "integer", "minimum": 0},
+    "expires_at": {"type": "integer", "minimum": 1},
+    "signature": {"type": "string", "pattern": "^[A-Za-z0-9+/]{80,120}={0,2}$"}
+  }
+}

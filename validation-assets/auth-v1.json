@@ -1,0 +1,17 @@
+{
+  "auth_version": "1.0",
+  "now": 1800000000,
+  "issuer": "https://auth.example/application/o/promptforge/",
+  "audience": "promptforge",
+  "project_id": "promptforge",
+  "cases": [
+    {"id":"owner","subject":"owner-local","groups":["promptforge-owner"],"issuer_ok":true,"expires_at":1800000300,"expected_status":"allow","expected_role":"owner"},
+    {"id":"maintainer","subject":"maintainer-1","groups":["promptforge-maintainer"],"issuer_ok":true,"expires_at":1800000300,"expected_status":"allow","expected_role":"maintainer"},
+    {"id":"engineer","subject":"engineer-1","groups":["promptforge-engineer"],"issuer_ok":true,"expires_at":1800000300,"expected_status":"allow","expected_role":"engineer"},
+    {"id":"analyst","subject":"analyst-1","groups":["promptforge-analyst"],"issuer_ok":true,"expires_at":1800000300,"expected_status":"allow","expected_role":"analyst"},
+    {"id":"wrong-issuer","subject":"engineer-1","groups":["promptforge-engineer"],"issuer_ok":false,"expires_at":1800000300,"expected_status":"deny","expected_role":""},
+    {"id":"expired","subject":"engineer-1","groups":["promptforge-engineer"],"issuer_ok":true,"expires_at":1800000000,"expected_status":"deny","expected_role":""},
+    {"id":"no-role","subject":"engineer-1","groups":["other"],"issuer_ok":true,"expires_at":1800000300,"expected_status":"deny","expected_role":""},
+    {"id":"forged-owner","subject":"attacker","groups":["promptforge-owner"],"issuer_ok":true,"expires_at":1800000300,"expected_status":"deny","expected_role":""}
+  ]
+}

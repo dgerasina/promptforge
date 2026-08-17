@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"Principal v1","type":"object","additionalProperties":false,"required":["schema_version","id","role","project_id"],"properties":{"schema_version":{"const":"1.0"},"id":{"type":"string","minLength":1},"role":{"enum":["owner","maintainer","engineer","analyst"]},"project_id":{"type":"string","minLength":1}}}

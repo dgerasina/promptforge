@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Project pack v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "id", "description", "integrations", "skills", "skill_approvals", "agent_catalog",
+    "repository_index", "review", "task_intents"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "description": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "integrations": {
+      "type": "array", "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
+    },
+    "skills": {
+      "type": "object", "additionalProperties": false, "required": ["root", "approved_order"],
+      "properties": {
+        "root": {"type": "string", "minLength": 1, "maxLength": 512},
+        "approved_order": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
+        }
+      }
+    },
+    "skill_approvals": {"type": ["string", "null"]},
+    "agent_catalog": {"type": "string", "minLength": 1, "maxLength": 512},
+    "task_intents": {"type": "string", "minLength": 1, "maxLength": 512},
+    "repository_index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "include_roots", "exclude_patterns", "allowed_extensions", "output_path", "max_files", "max_file_bytes"
+      ],
+      "properties": {
+        "include_roots": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 512}
+        },
+        "exclude_patterns": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 512}
+        },
+        "allowed_extensions": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^\\.[A-Za-z0-9]+$"}
+        },
+        "output_path": {"type": "string", "minLength": 1, "maxLength": 512},
+        "max_files": {"type": "integer", "minimum": 1, "maximum": 1000000},
+        "max_file_bytes": {"type": "integer", "minimum": 1, "maximum": 1000000000}
+      }
+    },
+    "review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["non_prod_suffixes", "sandbox_names", "sandbox_target_fields", "surfaces"],
+      "properties": {
+        "non_prod_suffixes": {
+          "type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 2}
+        },
+        "sandbox_names": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "sandbox_target_fields": {
+          "type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}
+        },
+        "surfaces": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["id", "extensions", "path_markers"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "extensions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+              "path_markers": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+            }
+          }
+        }
+      }
+    }
+  }
+}

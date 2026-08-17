@@ -1,0 +1,33 @@
+{
+  "review_version": "1.0",
+  "cases": [
+    {
+      "id": "provider-secret",
+      "path": "src/provider.py",
+      "diff": "+API_TOKEN = \"sk-proj-FAKE-DO-NOT-USE-12345678901234567890\"",
+      "deploy_candidate": true,
+      "expected_blocking": true
+    },
+    {
+      "id": "test-file-in-deploy",
+      "path": "src/review_test.py",
+      "diff": "+def helper_test(): return True",
+      "deploy_candidate": true,
+      "expected_blocking": true
+    },
+    {
+      "id": "clean-python",
+      "path": "src/calculation.py",
+      "diff": "+VALUE = 1",
+      "deploy_candidate": true,
+      "expected_blocking": false
+    },
+    {
+      "id": "test-not-deployed",
+      "path": "tests/review_test.py",
+      "diff": "+def test_value(): pass",
+      "deploy_candidate": false,
+      "expected_blocking": false
+    }
+  ]
+}

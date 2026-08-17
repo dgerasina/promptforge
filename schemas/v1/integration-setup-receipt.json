@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local integration setup receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "services", "principal_id", "auth_modes", "credentials_exposed", "network_used"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "ready"},
+    "services": {"const": 3},
+    "principal_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "auth_modes": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "prefixItems": [
+        {"enum": ["basic", "session-cookie-file"]},
+        {"enum": ["basic", "bearer-token", "session-cookie-file"]},
+        {"enum": ["basic", "session-cookie-file"]}
+      ],
+      "items": false
+    },
+    "credentials_exposed": {"const": false},
+    "network_used": {"const": false}
+  }
+}

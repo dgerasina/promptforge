@@ -1,0 +1,91 @@
+{
+  "policy_version": "1.0",
+  "synthetic": true,
+  "owner": "owner-local",
+  "cases": [
+    {
+      "id": "public-model-allow",
+      "request": {
+        "schema_version": "1.0",
+        "principal": {"schema_version": "1.0", "id": "fixture-engineer", "role": "engineer", "project_id": "promptforge"},
+        "action": "model.invoke", "resource": "model:external", "purpose": "policy-fixture",
+        "data_classification": "public"
+      },
+      "expected_outcome": "allow",
+      "expected_reason_code": "public_external_allowed",
+      "expected_constraints": ["external_gateway_only"],
+      "expected_required_transforms": [],
+      "expected_ttl_seconds": 300
+    },
+    {
+      "id": "internal-model-transform",
+      "request": {
+        "schema_version": "1.0",
+        "principal": {"schema_version": "1.0", "id": "fixture-engineer", "role": "engineer", "project_id": "promptforge"},
+        "action": "model.invoke", "resource": "model:external", "purpose": "policy-fixture",
+        "data_classification": "internal"
+      },
+      "expected_outcome": "allow_with_transform",
+      "expected_reason_code": "internal_external_transform_required",
+      "expected_constraints": ["synthetic_or_approved_internal", "external_gateway_only"],
+      "expected_required_transforms": ["privacy.inspect_and_placeholder"],
+      "expected_ttl_seconds": 300
+    },
+    {
+      "id": "confidential-model-deny",
+      "request": {
+        "schema_version": "1.0",
+        "principal": {"schema_version": "1.0", "id": "fixture-engineer", "role": "engineer", "project_id": "promptforge"},
+        "action": "model.invoke", "resource": "model:external", "purpose": "policy-fixture",
+        "data_classification": "confidential"
+      },
+      "expected_outcome": "deny",
+      "expected_reason_code": "external_sensitive_data_denied",
+      "expected_constraints": [],
+      "expected_required_transforms": [],
+      "expected_ttl_seconds": 0
+    },
+    {
+      "id": "engineer-write-approval",
+      "request": {
+        "schema_version": "1.0",
+        "principal": {"schema_version": "1.0", "id": "fixture-engineer", "role": "engineer", "project_id": "promptforge"},
+        "action": "mcp.write", "resource": "mcp:tool", "purpose": "policy-fixture",
+        "data_classification": "internal"
+      },
+      "expected_outcome": "approval_required",
+      "expected_reason_code": "write_requires_exact_action_approval",
+      "expected_constraints": ["exact_action_hash"],
+      "expected_required_transforms": [],
+      "expected_ttl_seconds": 60
+    },
+    {
+      "id": "analyst-write-deny",
+      "request": {
+        "schema_version": "1.0",
+        "principal": {"schema_version": "1.0", "id": "fixture-analyst", "role": "analyst", "project_id": "promptforge"},
+        "action": "mcp.write", "resource": "mcp:tool", "purpose": "policy-fixture",
+        "data_classification": "internal"
+      },
+      "expected_outcome": "deny",
+      "expected_reason_code": "role_write_denied",
+      "expected_constraints": [],
+      "expected_required_transforms": [],
+      "expected_ttl_seconds": 0
+    },
+    {
+      "id": "unknown-action-deny",
+      "request": {
+        "schema_version": "1.0",
+        "principal": {"schema_version": "1.0", "id": "fixture-owner", "role": "owner", "project_id": "promptforge"},
+        "action": "policy.override", "resource": "policy:v1", "purpose": "policy-fixture",
+        "data_classification": "public"
+      },
+      "expected_outcome": "deny",
+      "expected_reason_code": "unknown_action",
+      "expected_constraints": [],
+      "expected_required_transforms": [],
+      "expected_ttl_seconds": 0
+    }
+  ]
+}

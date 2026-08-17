@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Owner-private local integration profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "profile_version", "principal_id", "ca_file", "services"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "profile_version": {"const": "integration-local-v1"},
+    "principal_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "ca_file": {"type": "string", "minLength": 1, "maxLength": 4096},
+    "services": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "url", "auth_mode", "username", "scope_mode", "allowed_resources", "smoke_resource", "credential_file"],
+        "properties": {
+          "id": {"enum": ["confluence", "jira", "airflow"]},
+          "url": {"type": "string", "pattern": "^https://"},
+          "auth_mode": {"enum": ["basic", "bearer-token", "session-cookie-file"]},
+          "username": {"type": "string", "maxLength": 256},
+          "scope_mode": {"enum": ["exact", "account-visible-read-only"]},
+          "allowed_resources": {"type": "array", "maxItems": 128, "items": {"type": "string", "maxLength": 128}},
+          "smoke_resource": {"type": "string", "minLength": 1, "maxLength": 128},
+          "credential_file": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,63}\\.credential$"}
+        },
+        "allOf": [{
+          "if": {"properties": {"id": {"enum": ["confluence", "airflow"]}}, "required": ["id"]},
+          "then": {"properties": {"auth_mode": {"enum": ["basic", "session-cookie-file"]}}}
+        }]
+      }
+    }
+  }
+}

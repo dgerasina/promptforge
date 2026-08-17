@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Automated review request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "project_id", "purpose", "diff_digest", "files", "checks", "contract_reviewed",
+    "spec_version", "policy_version", "skill_versions", "model_route", "trace_id", "targeted_paths",
+    "prior_finding_keys"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "project_id": {"type": "string", "minLength": 1},
+    "purpose": {"type": "string", "minLength": 1},
+    "diff_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "files": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["path", "diff", "deploy_candidate"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1, "maxLength": 512},
+          "diff": {"type": "string", "minLength": 1, "maxLength": 200000},
+          "deploy_candidate": {"type": "boolean"}
+        }
+      }
+    },
+    "checks": {
+      "type": "array", "uniqueItems": true,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["check_id", "status", "evidence"],
+        "properties": {
+          "check_id": {"enum": ["syntax", "tests", "contracts", "security", "deploy_safety"]},
+          "status": {"enum": ["passed", "failed"]},
+          "evidence": {"type": "string", "pattern": "^receipt:[a-z][a-z0-9_-]{0,31}:[a-z0-9]{6,128}$"}
+        }
+      }
+    },
+    "contract_reviewed": {"type": "boolean"},
+    "spec_version": {"type": "string", "minLength": 1},
+    "policy_version": {"type": "string", "minLength": 1},
+    "skill_versions": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "model_route": {"type": "string", "minLength": 1},
+    "trace_id": {"type": "string", "minLength": 1},
+    "targeted_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "prior_finding_keys": {
+      "type": "array", "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+    }
+  }
+}

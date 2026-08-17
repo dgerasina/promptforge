@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "ephemeral_targets": [
+    "approval-consumption.sqlite3",
+    "context-cache.sqlite3",
+    "debug-references.sqlite3",
+    "placeholder-mappings.sqlite3",
+    "usage.sqlite3"
+  ],
+  "protected_targets": [
+    "audit.sqlite3", "efficiency-metrics.sqlite3", "review-provenance.sqlite3", "token-usage.sqlite3"
+  ],
+  "retention": {"debug_days": 14, "placeholder_max_hours": 24}
+}

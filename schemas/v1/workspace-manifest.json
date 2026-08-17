@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Workspace bootstrap manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "manifest_version", "git_revision", "source_digest", "project_key", "profile_id", "catalog_digest", "agents", "skills", "approved_skills", "repository_index_digest", "network_used", "identity_status", "principal_id", "principal_role", "identity_privileged", "hub_status", "integrations", "capabilities", "readiness_digest", "manifest_digest"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "manifest_version": {"const": "workspace-v1"},
+    "git_revision": {"type": "string", "pattern": "^[0-9a-f]{40,64}$"},
+    "source_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "project_key": {"type": "string", "minLength": 1},
+    "profile_id": {"type": "string", "minLength": 1},
+    "catalog_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "agents": {"type": "integer", "minimum": 1},
+    "skills": {"type": "integer", "minimum": 0},
+    "approved_skills": {"type": "integer", "minimum": 0},
+    "repository_index_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "network_used": {"const": false},
+    "identity_status": {"const": "recognized"},
+    "principal_id": {"type": "string", "minLength": 1},
+    "principal_role": {"enum": ["owner", "maintainer", "engineer", "analyst"]},
+    "identity_privileged": {"const": false},
+    "hub_status": {"const": "registry_ready"},
+    "integrations": {"type": "integer", "minimum": 0},
+    "capabilities": {"type": "integer", "minimum": 0},
+    "readiness_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "manifest_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

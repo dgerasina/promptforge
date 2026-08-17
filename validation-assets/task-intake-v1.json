@@ -1,0 +1,50 @@
+{
+  "intake_version": "1.0.0",
+  "cases": [
+    {
+      "id": "review",
+      "principal_id": "engineer-local",
+      "task": "сделай ревью изменений в сервисе",
+      "expected_status": "ready",
+      "expected_reason_code": "preview_ready",
+      "expected_task_kind": "review.changed-files",
+      "expected_privacy_outcome": "allow"
+    },
+    {
+      "id": "ambiguous",
+      "principal_id": "engineer-local",
+      "task": "сделай ревью изменений и обнови документацию",
+      "expected_status": "blocked",
+      "expected_reason_code": "task_ambiguous",
+      "expected_task_kind": null,
+      "expected_privacy_outcome": "allow"
+    },
+    {
+      "id": "secret",
+      "principal_id": "engineer-local",
+      "task": "используй ключ sk-proj-FAKE-DO-NOT-USE-12345678901234567890 для задачи",
+      "expected_status": "denied",
+      "expected_reason_code": "sensitive_content_detected",
+      "expected_task_kind": null,
+      "expected_privacy_outcome": "deny"
+    },
+    {
+      "id": "pii",
+      "principal_id": "analyst-local",
+      "task": "сделай ревью изменений для alice@example.com и +1-202-555-0101",
+      "expected_status": "ready",
+      "expected_reason_code": "preview_ready",
+      "expected_task_kind": "review.changed-files",
+      "expected_privacy_outcome": "allow_with_transform"
+    },
+    {
+      "id": "role-denied",
+      "principal_id": "analyst-local",
+      "task": "обнови документацию",
+      "expected_status": "denied",
+      "expected_reason_code": "governance_identity_required",
+      "expected_task_kind": "documentation.sync",
+      "expected_privacy_outcome": "allow"
+    }
+  ]
+}

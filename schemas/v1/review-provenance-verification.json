@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Review provenance verification v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "valid", "records", "last_digest", "review_version"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "valid": {"type": "boolean"},
+    "records": {"type": "integer", "minimum": 0},
+    "last_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "review_version": {"const": "2.0"}
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Governance policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_version", "project_id", "administrators", "capabilities"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "policy_version": {"const": "governance-v1"},
+    "project_id": {"const": "promptforge"},
+    "administrators": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "role"],
+        "properties": {
+          "id": {"enum": ["owner-local", "maintainer-local"]},
+          "role": {"enum": ["owner", "maintainer"]}
+        }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "docs.sync", "mcp.approve", "models.admit", "operations.manage", "policy.manage",
+          "privacy.rehydrate", "roles.manage", "skills.manage"
+        ]
+      }
+    }
+  }
+}

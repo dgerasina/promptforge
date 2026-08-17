@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "auth_version": "embedded-auth-v1",
+  "issuer": "promptforge-local",
+  "audience": "promptforge",
+  "project_id": "promptforge",
+  "session_ttl_seconds": 900,
+  "session_epoch": 1,
+  "principals": [
+    {"id": "owner-local", "role": "owner", "enabled": true},
+    {"id": "maintainer-local", "role": "maintainer", "enabled": true},
+    {"id": "engineer-local", "role": "engineer", "enabled": true},
+    {"id": "analyst-local", "role": "analyst", "enabled": true}
+  ]
+}

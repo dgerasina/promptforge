@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Automated review receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "reason_code", "trace_id", "project_id", "diff_digest", "affected_surface",
+    "finding_counts", "checks_passed", "checks_failed", "contract_reviewed", "spec_version", "policy_version",
+    "targeted", "open_finding_keys", "closed_finding_keys", "review_version"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["passed", "changes_requested", "incomplete"]},
+    "reason_code": {"enum": ["review_passed", "blocking_findings", "evidence_incomplete"]},
+    "trace_id": {"type": "string", "minLength": 1},
+    "project_id": {"type": "string", "minLength": 1},
+    "diff_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "affected_surface": {
+      "type": "array", "uniqueItems": true,
+      "items": {"enum": ["spec", "code", "sql", "airflow", "config", "schema", "docs", "test"]}
+    },
+    "finding_counts": {
+      "type": "object", "additionalProperties": false, "required": ["high", "medium", "low"],
+      "properties": {
+        "high": {"type": "integer", "minimum": 0},
+        "medium": {"type": "integer", "minimum": 0},
+        "low": {"type": "integer", "minimum": 0}
+      }
+    },
+    "checks_passed": {"$ref": "#/$defs/checks"},
+    "checks_failed": {"$ref": "#/$defs/checks"},
+    "contract_reviewed": {"type": "boolean"},
+    "spec_version": {"type": "string", "minLength": 1},
+    "policy_version": {"type": "string", "minLength": 1},
+    "targeted": {"type": "boolean"},
+    "open_finding_keys": {"$ref": "#/$defs/finding_keys"},
+    "closed_finding_keys": {"$ref": "#/$defs/finding_keys"},
+    "review_version": {"const": "1.0"}
+  },
+  "$defs": {
+    "checks": {
+      "type": "array", "uniqueItems": true,
+      "items": {"enum": ["syntax", "tests", "contracts", "security", "deploy_safety"]}
+    },
+    "finding_keys": {
+      "type": "array", "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+    }
+  }
+}

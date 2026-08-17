@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "catalog_version": "1.0.0",
+  "agents": [
+    {
+      "id": "portable-review",
+      "version": "1.0.0",
+      "status": "active",
+      "roles": ["owner", "maintainer", "engineer", "analyst"],
+      "task_kinds": ["review.changed-files"],
+      "skill_refs": [],
+      "required_capabilities": ["repository.read"],
+      "review_agent_id": null
+    }
+  ],
+  "catalog_digest": "sha256:38fec52d08281b1e2d05e3e2e793726476e13e9fbad3e1da9af652fa210a249a"
+}

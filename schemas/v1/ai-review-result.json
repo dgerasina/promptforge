@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI-assisted review result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review", "ai_receipt"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "review": {"$ref": "review-result.json"},
+    "ai_receipt": {"$ref": "ai-review-receipt.json"}
+  }
+}

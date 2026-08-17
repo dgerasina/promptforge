@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pilot acceptance receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["passed", "error"]},
+    "code": {"const": "pilot_acceptance_failed"},
+    "route_combinations": {"type": "integer", "minimum": 1},
+    "catalog_task_kinds": {"type": "integer", "minimum": 16},
+    "registered_task_kinds": {"type": "integer", "minimum": 16},
+    "representative_previews": {"const": 8},
+    "engineer_previews": {"const": 3},
+    "analyst_previews": {"const": 3},
+    "administrative_previews": {"const": 2},
+    "role_authorization_cases": {"const": 7},
+    "live_principals": {"const": 1},
+    "offline_lifecycle": {"const": "passed"},
+    "review_evidence": {"const": "passed"},
+    "token_evidence": {"const": "passed"},
+    "live_probes": {"const": 3},
+    "mutations_executed": {"const": 0},
+    "synthetic_fallback_forbidden": {"const": true},
+    "network_used": {"const": true}
+  },
+  "allOf": [{
+    "if": {"properties": {"status": {"const": "passed"}}},
+    "then": {
+      "required": [
+        "route_combinations", "catalog_task_kinds", "registered_task_kinds", "representative_previews",
+        "engineer_previews", "analyst_previews", "administrative_previews", "role_authorization_cases",
+        "live_principals", "offline_lifecycle", "review_evidence", "token_evidence", "live_probes",
+        "mutations_executed", "synthetic_fallback_forbidden"
+      ]
+    },
+    "else": {"required": ["code"]}
+  }]
+}

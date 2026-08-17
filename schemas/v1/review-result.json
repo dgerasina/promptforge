@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Automated review result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "affected_surface", "findings", "receipt"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "affected_surface": {
+      "type": "array", "uniqueItems": true,
+      "items": {"enum": ["spec", "code", "sql", "airflow", "config", "schema", "docs", "test"]}
+    },
+    "findings": {"type": "array", "items": {"$ref": "review-finding.json"}},
+    "receipt": {"$ref": "review-receipt.json"}
+  }
+}

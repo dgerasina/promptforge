@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://promptforge.local/schemas/v1/final-evidence.json",
+  "title": "FinalEvidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "security", "e2e", "load", "source", "assurance_scope", "known_limitations", "evidence_digest", "network_used"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["passed", "failed"]},
+    "security": {
+      "type": "object", "additionalProperties": false,
+      "required": ["cases", "passed", "failed"],
+      "properties": {
+        "cases": {"type": "integer", "minimum": 1},
+        "passed": {"type": "integer", "minimum": 0},
+        "failed": {"type": "integer", "minimum": 0}
+      }
+    },
+    "e2e": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "iterations", "passed", "audit_valid", "token_receipts", "durable_token_receipts", "candidate_input_tokens",
+        "selected_input_tokens", "billed_input_tokens", "token_saving_ratio",
+        "privacy_reduction_tokens", "transformation_overhead_tokens", "usage_store_valid"
+      ],
+      "properties": {
+        "iterations": {"type": "integer", "minimum": 1, "maximum": 1000},
+        "passed": {"type": "integer", "minimum": 0},
+        "audit_valid": {"type": "boolean"},
+        "token_receipts": {"type": "integer", "minimum": 0},
+        "durable_token_receipts": {"type": "integer", "minimum": 0},
+        "candidate_input_tokens": {"type": "integer", "minimum": 0},
+        "selected_input_tokens": {"type": "integer", "minimum": 0},
+        "billed_input_tokens": {"type": "integer", "minimum": 0},
+        "token_saving_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "privacy_reduction_tokens": {"type": "integer", "minimum": 0},
+        "transformation_overhead_tokens": {"type": "integer", "minimum": 0},
+        "usage_store_valid": {"type": "boolean"}
+      }
+    },
+    "load": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requests", "concurrency", "failures", "duration_ms", "p95_ms", "max_p95_ms", "throughput_rps"],
+      "properties": {
+        "requests": {"type": "integer", "minimum": 1},
+        "concurrency": {"type": "integer", "minimum": 1, "maximum": 32},
+        "failures": {"type": "integer", "minimum": 0},
+        "duration_ms": {"type": "number", "exclusiveMinimum": 0},
+        "p95_ms": {"type": "number", "minimum": 0},
+        "max_p95_ms": {"type": "number", "exclusiveMinimum": 0},
+        "throughput_rps": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["files", "sha256", "production_docs_digest", "threat_model_version"],
+      "properties": {
+        "files": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "production_docs_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "threat_model_version": {"const": "threat-model-v1"}
+      }
+    },
+    "assurance_scope": {"const": "repository_single_host_mvp"},
+    "known_limitations": {
+      "type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true,
+      "items": {"enum": [
+        "audit_no_external_restart_anchor",
+        "local_model_process_not_cryptographically_attested",
+        "host_process_memory_not_isolated",
+        "external_integrations_not_attested_by_repository",
+        "semantic_prompt_injection_not_eliminated",
+        "single_host_no_ha_or_multi_host_consistency"
+      ]}
+    },
+    "evidence_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "network_used": {"const": false}
+  }
+}

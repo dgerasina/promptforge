@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "manifest_version": "production-docs-v1",
+  "threat_model_version": "threat-model-v1",
+  "documents": [
+    {
+      "id": "architecture",
+      "path": "docs/architecture.md",
+      "version": "architecture-v1",
+      "required_sections": ["Trust boundaries", "Data flow", "Portability"]
+    },
+    {
+      "id": "threat-model",
+      "path": "docs/security/threat-model.md",
+      "version": "threat-model-v1",
+      "required_sections": ["Assets", "Attack surfaces", "Abuse cases", "Residual risks"]
+    },
+    {
+      "id": "production-readiness",
+      "path": "docs/runbooks/production-readiness.md",
+      "version": "production-readiness-v1",
+      "required_sections": ["Entry criteria", "Evidence", "Rollback", "Incident"]
+    }
+  ]
+}

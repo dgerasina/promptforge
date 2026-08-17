@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "intake_version": "1.0.0",
+  "rules": [
+    {
+      "task_kind": "review.changed-files",
+      "phrases": [
+        "review changed files",
+        "сделай ревью изменений",
+        "проведи ревью изменений"
+      ]
+    },
+    {
+      "task_kind": "documentation.sync",
+      "phrases": [
+        "обнови документацию",
+        "sync documentation",
+        "refresh documentation"
+      ]
+    }
+  ],
+  "intent_digest": "sha256:01c6718f705071402d23248d125086cbf1553e432494dd221ce4b1d0f0fb799e"
+}

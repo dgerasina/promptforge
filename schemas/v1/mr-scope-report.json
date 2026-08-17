@@ -1,0 +1,67 @@
+{
+  "schema_version": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Merge request scope report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "reason_codes",
+    "base_ref",
+    "head_ref",
+    "current_branch",
+    "changed_files",
+    "outside_scope_files",
+    "mr_allowlist",
+    "deploy_allowlist",
+    "do_not_deploy",
+    "diff_digest",
+    "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["passed", "blocked"]},
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "mr_diff_empty",
+          "mr_scope_outside_product",
+          "mr_scope_missing_product_changes"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "base_ref": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+    "head_ref": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+    "current_branch": {"type": "string", "minLength": 1},
+    "changed_files": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "outside_scope_files": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "mr_allowlist": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^promptforge/"},
+      "uniqueItems": true
+    },
+    "deploy_allowlist": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^promptforge/"},
+      "uniqueItems": true
+    },
+    "do_not_deploy": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^promptforge/"},
+      "uniqueItems": true
+    },
+    "diff_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "network_used": {"const": false}
+  }
+}

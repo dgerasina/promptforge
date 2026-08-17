@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Operational acceptance receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "acceptance_version", "status", "scenarios", "passed", "failed", "results",
+    "isolated", "real_state_touched", "network_used"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "acceptance_version": {"const": "operations-v1"},
+    "status": {"enum": ["passed", "failed", "error"]},
+    "scenarios": {"const": 9},
+    "passed": {"type": "integer", "minimum": 0, "maximum": 9},
+    "failed": {"type": "integer", "minimum": 0, "maximum": 9},
+    "results": {
+      "type": "array", "maxItems": 9,
+      "prefixItems": [
+        {"$ref": "#/$defs/result", "properties": {"id": {"const": "kill_switch"}}},
+        {"$ref": "#/$defs/result", "properties": {"id": {"const": "patch_rollback"}}},
+        {"$ref": "#/$defs/result", "properties": {"id": {"const": "interrupted_recovery"}}},
+        {"$ref": "#/$defs/result", "properties": {"id": {"const": "state_cleanup"}}},
+        {"$ref": "#/$defs/result", "properties": {"id": {"const": "owner_key_rotation"}}},
+        {"$ref": "#/$defs/result", "properties": {"id": {"const": "owner_key_revocation"}}},
+        {"$ref": "#/$defs/result", "properties": {"id": {"const": "receipt_recovery"}}},
+        {"$ref": "#/$defs/result", "properties": {"id": {"const": "master_update_restart"}}},
+        {"$ref": "#/$defs/result", "properties": {"id": {"const": "clean_repository_portability"}}}
+      ],
+      "items": false
+    },
+    "isolated": {"const": true},
+    "real_state_touched": {"const": false},
+    "network_used": {"const": false}
+  },
+  "allOf": [{
+    "if": {"properties": {"status": {"const": "error"}}},
+    "then": {"properties": {"results": {"maxItems": 0}}},
+    "else": {"properties": {"results": {"minItems": 9}}}
+  }],
+  "$defs": {
+    "result": {
+        "type": "object", "additionalProperties": false, "required": ["id", "status"],
+        "properties": {
+          "id": {"enum": [
+            "kill_switch", "patch_rollback", "interrupted_recovery", "state_cleanup", "owner_key_rotation",
+            "owner_key_revocation", "receipt_recovery", "master_update_restart", "clean_repository_portability"
+          ]},
+          "status": {"enum": ["passed", "failed"]}
+        }
+    }
+  }
+}

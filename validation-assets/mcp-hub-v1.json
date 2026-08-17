@@ -1,0 +1,10 @@
+{
+  "hub_version": "1.0",
+  "cases": [
+    {"id":"analyst-discovery","expected_status":"ok"},
+    {"id":"analyst-read","expected_status":"ok"},
+    {"id":"analyst-write-denied","expected_status":"deny"},
+    {"id":"engineer-approved-write","expected_status":"ok"},
+    {"id":"invalid-token","expected_status":"deny"}
+  ]
+}

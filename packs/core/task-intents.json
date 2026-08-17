@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "intake_version": "1.0.0",
+  "rules": [
+    {
+      "task_kind": "review.changed-files",
+      "phrases": ["review changed files", "проведи ревью изменений", "сделай ревью изменений"]
+    }
+  ],
+  "intent_digest": "sha256:73b1cb63c2f70c0603df38b399ceb461536105076976b2e34f26269ef3e1a811"
+}

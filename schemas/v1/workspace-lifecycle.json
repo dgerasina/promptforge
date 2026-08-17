@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "promptforge://schemas/v1/workspace-lifecycle.json",
+  "title": "Workspace lifecycle response",
+  "type": "object",
+  "required": ["schema_version", "command", "status", "network_used"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "command": {"enum": ["setup", "start", "status", "doctor", "stop"]},
+    "status": {"enum": ["ready", "running", "stopped", "blocked", "error"]},
+    "code": {"const": "workspace_lifecycle_failed"},
+    "running": {"type": "boolean"},
+    "manifest_digest": {"type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$"},
+    "repository_index_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "instance_id": {"type": "string", "pattern": "^[0-9a-f]{32}$"},
+    "pid": {"type": "integer", "minimum": 1},
+    "agents": {"type": "integer", "minimum": 0},
+    "skills": {"type": "integer", "minimum": 0},
+    "identity_status": {"const": "recognized"},
+    "principal_id": {"type": "string", "minLength": 1},
+    "principal_role": {"enum": ["owner", "maintainer", "engineer", "analyst"]},
+    "identity_privileged": {"const": false},
+    "hub_status": {"const": "registry_ready"},
+    "integrations": {"type": "integer", "minimum": 0},
+    "capabilities": {"type": "integer", "minimum": 0},
+    "readiness_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "checks": {"type": "integer", "minimum": 0},
+    "passed": {"type": "integer", "minimum": 0},
+    "check_ids": {"type": "array", "items": {"enum": ["state", "manifest", "source", "revision", "profile", "index", "identity", "hub", "runtime"]}, "uniqueItems": true},
+    "network_used": {"const": false}
+  },
+  "additionalProperties": false
+}

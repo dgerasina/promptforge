@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Production integration readiness receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "services", "transport", "redirects_allowed", "synthetic_fallback", "credentials_exposed", "config_digest", "network_used"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "ready"},
+    "services": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "resources", "scope_mode", "auth_mode", "tls", "read_only"],
+        "properties": {
+          "id": {"enum": ["confluence", "jira", "airflow"]},
+          "resources": {"type": "integer", "minimum": 0},
+          "scope_mode": {"enum": ["exact", "account-visible-read-only"]},
+          "auth_mode": {"enum": ["basic", "bearer-token", "session-cookie-file"]},
+          "tls": {"const": true},
+          "read_only": {"const": true}
+        },
+        "allOf": [{
+          "if": {"properties": {"id": {"enum": ["confluence", "airflow"]}}, "required": ["id"]},
+          "then": {"properties": {"auth_mode": {"enum": ["basic", "session-cookie-file"]}}}
+        }]
+      }
+    },
+    "transport": {"const": "https-pinned-read-only"},
+    "redirects_allowed": {"const": false},
+    "synthetic_fallback": {"const": false},
+    "credentials_exposed": {"const": false},
+    "config_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "network_used": {"const": false}
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Authenticated execution authorization receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "boundary_version", "status", "reason_code", "principal_id", "role", "project_id",
+    "task_kind", "plan_digest", "catalog_digest", "auth_version", "auth_expires_at", "governance_version",
+    "governance_capability", "network_used", "authorization_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "boundary_version": {"const": "1.0.0"},
+    "status": {"enum": ["allowed", "denied"]},
+    "reason_code": {"type": "string", "minLength": 1, "maxLength": 128},
+    "principal_id": {"type": "string", "maxLength": 128},
+    "role": {"enum": ["", "owner", "maintainer", "engineer", "analyst"]},
+    "project_id": {"const": "promptforge"},
+    "task_kind": {"type": "string", "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z0-9-]+)+$"},
+    "plan_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "catalog_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "auth_version": {"type": "string", "minLength": 1, "maxLength": 64},
+    "auth_expires_at": {"type": "integer", "minimum": 0},
+    "governance_version": {"const": "governance-v1"},
+    "governance_capability": {"enum": ["", "docs.sync"]},
+    "network_used": {"const": false},
+    "authorization_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Independent AI review receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "reason_code", "review_binding", "candidate_count", "verified_count",
+    "rejected_count", "abstained_count", "candidate_route", "verifier_route", "candidate_prompt_version",
+    "verifier_prompt_version", "independence_verified", "candidate_digest", "verification_receipt"
+    , "verification_digest", "expires_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["verified", "failed"]},
+    "reason_code": {"enum": ["ai_verification_complete", "ai_verification_incomplete"]},
+    "review_binding": {"$ref": "#/$defs/digest"},
+    "candidate_count": {"type": "integer", "minimum": 0, "maximum": 20},
+    "verified_count": {"type": "integer", "minimum": 0, "maximum": 20},
+    "rejected_count": {"type": "integer", "minimum": 0, "maximum": 20},
+    "abstained_count": {"type": "integer", "minimum": 0, "maximum": 20},
+    "candidate_route": {"type": "string", "minLength": 1, "maxLength": 128},
+    "verifier_route": {"type": "string", "minLength": 1, "maxLength": 128},
+    "candidate_prompt_version": {"type": "string", "minLength": 1, "maxLength": 128},
+    "verifier_prompt_version": {"type": "string", "minLength": 1, "maxLength": 128},
+    "independence_verified": {"type": "boolean"},
+    "candidate_digest": {"$ref": "#/$defs/digest"},
+    "verification_digest": {"$ref": "#/$defs/digest"},
+    "expires_at": {"type": "number", "exclusiveMinimum": 0},
+    "verification_receipt": {
+      "oneOf": [
+        {"const": ""},
+        {"type": "string", "pattern": "^receipt:ai_verification:[0-9a-f]{96}$"}
+      ]
+    }
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+  }
+}

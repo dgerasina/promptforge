@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Task route v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "outcome", "reason_code", "task_kind", "envelope_digest", "catalog_version", "catalog_digest", "primary_agent_id",
+    "primary_agent_version", "skill_refs", "required_capabilities", "review_agent_id", "route_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "outcome": {"enum": ["selected", "denied"]},
+    "reason_code": {"type": "string", "minLength": 1, "maxLength": 128},
+    "task_kind": {"type": "string", "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z0-9-]+)+$"},
+    "envelope_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "catalog_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "catalog_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "primary_agent_id": {"type": ["string", "null"]},
+    "primary_agent_version": {"type": ["string", "null"]},
+    "skill_refs": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "required_capabilities": {
+      "type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}
+    },
+    "review_agent_id": {"type": ["string", "null"]},
+    "route_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+  }
+}
