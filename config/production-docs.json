@@ -7,19 +7,19 @@
       "id": "architecture",
       "path": "docs/architecture.md",
       "version": "architecture-v1",
-      "required_sections": ["Trust boundaries", "Data flow", "Portability"]
+      "required_sections": ["Границы доверия", "Поток данных", "Переносимость"]
     },
     {
       "id": "threat-model",
       "path": "docs/security/threat-model.md",
       "version": "threat-model-v1",
-      "required_sections": ["Assets", "Attack surfaces", "Abuse cases", "Residual risks"]
+      "required_sections": ["Активы", "Поверхности атаки", "Сценарии злоупотребления", "Остаточные риски"]
     },
     {
       "id": "production-readiness",
       "path": "docs/runbooks/production-readiness.md",
       "version": "production-readiness-v1",
-      "required_sections": ["Entry criteria", "Evidence", "Rollback", "Incident"]
+      "required_sections": ["Входные критерии", "Свидетельства проверок", "Откат", "Инцидент"]
     }
   ]
 }

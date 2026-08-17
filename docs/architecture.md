@@ -1,12 +1,12 @@
-# Production architecture
+# Production-архитектура
 
-Document version: `architecture-v1`
+Версия документа: `architecture-v1`
 
 PromptForge — переносимый repository-only control и execution layer для детерминированной агентской разработки. Код,
 политики, schemas, packs, skills и эксплуатационная документация поставляются одной папкой; отдельная БД, gateway или
 новый инфраструктурный сервис не требуются.
 
-## Components
+## Компоненты
 
 - project profile выбирает pack, integrations, agent catalog и repository-index policy;
 - authentication и governance связывают session, exact identity, role, project и administrative capability;
@@ -22,7 +22,7 @@ PromptForge — переносимый repository-only control и execution laye
 - targeted review closure переоценивает prior findings и сравнивает HMAC-tokenized worktree baseline без хранения paths;
 - owner-private local state хранит audit, grants, provenance и ephemeral cache без raw prompts или diffs.
 
-## Trust boundaries
+## Границы доверия
 
 `platform/secure_filesystem.py` — единый OS security boundary для private directories/files. POSIX backend проверяет
 owner UID и exact modes; native Windows backend применяет и повторно читает protected NTFS ACL для current SID и
@@ -41,7 +41,7 @@ secure runtime state и workspace lifecycle используют этот общ
 9. Review-closure boundary: повторный review связан с parent receipt и допускает изменения только exact targeted paths;
    любой out-of-scope drift требует нового полного review.
 
-## Data flow
+## Поток данных
 
 `identity → policy → privacy → token plan → model/tool adapter → review → audit/evidence`.
 
@@ -50,7 +50,7 @@ workflow; исключение — TTL-bounded external-document snapshot в own
 audit, usage receipts, repository index и durable review provenance остаются metadata-only.
 Rehydration выполняется лишь по одноразовому scoped grant после возврата результата в доверенный контур.
 
-## Deployment and state
+## Развёртывание и состояние
 
 Production bundle включает Python package, schemas, config, selected pack, skills и docs. Runtime keys и signed sessions
 инжектируются извне Git. Локальный state создаётся с режимом `0700`, файлы — `0600`; network filesystem запрещён.
@@ -58,7 +58,7 @@ Kill switch блокирует adapters, а cleanup не удаляет audit и
 Audit writers используют bounded SQLite busy timeout 30 секунд, чтобы сериализованный append не давал ложные failures
 на заявленном concurrent load profile; истечение timeout остаётся fail closed.
 
-## Portability
+## Переносимость
 
 Для другого репозитория меняются `project-profile.yaml` и project pack. Core, wire contracts и gates не должны содержать
 проектных путей или vendor-specific названий. Все обязательные проверки запускаются стандартной библиотекой Python без

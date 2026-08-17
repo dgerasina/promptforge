@@ -300,15 +300,15 @@ class DocumentationAutomation:
         }
         lines = [
             f"<!-- PF:DOC-METADATA {json.dumps(metadata, sort_keys=True, separators=(',', ':'))} -->",
-            "", "## API reference", "", f"**{schema['title']}**", "",
-            f"Source: [`{target.source_schema}`]({relative_source})", "", f"Digest: `{source_digest}`", "",
-            "| Field | Required | Type | Description |", "|---|---:|---|---|",
+            "", "## Справочник API", "", f"**{schema['title']}**", "",
+            f"Источник: [`{target.source_schema}`]({relative_source})", "", f"Хеш: `{source_digest}`", "",
+            "| Поле | Обязательно | Тип | Описание |", "|---|---:|---|---|",
         ]
         for name in sorted(properties):
             definition = properties[name]
             field_type = DocumentationAutomation._schema_type(definition)
             description = str(definition.get("description", "—")).replace("|", "\\|").replace("\n", " ")
-            lines.append(f"| `{name}` | {'yes' if name in required else 'no'} | `{field_type}` | {description} |")
+            lines.append(f"| `{name}` | {'да' if name in required else 'нет'} | `{field_type}` | {description} |")
         return "\n".join(lines) + "\n"
 
     @staticmethod

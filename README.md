@@ -1,40 +1,41 @@
-# PromptForge Public Starter
+# PromptForge: публичная стартовая версия
 
-PromptForge is a repository-only control plane for agent engineering. It applies identity, privacy, policy, routing,
-review, and evidence gates without requiring a separate database or hosted control service.
+PromptForge — работающий исключительно внутри репозитория центр управления агентской разработкой. Он применяет
+проверки идентификации, приватности, политик, маршрутизации, ревью и доказательств выполнения без отдельной базы данных
+или облачного управляющего сервиса.
 
-This public repository ships a sanitized starter distribution intended for teams that want to adapt the model to their
-own workflows.
+Этот публичный репозиторий содержит обезличенную стартовую поставку, которую команды могут адаптировать под свои
+процессы.
 
-## Included by default
+## Что доступно по умолчанию
 
-- changed-files review
-- documentation sync
-- optional read-only Confluence, Jira, and Airflow adapters
-- local auth, audit, RC, and operational safety checks
+- ревью изменённых файлов;
+- синхронизация документации;
+- необязательные read-only адаптеры Confluence, Jira и Airflow;
+- локальная аутентификация, аудит, проверка release candidate и эксплуатационной безопасности.
 
-No private state, production credentials, or proprietary content are included.
+Приватное состояние, production credentials и закрытые материалы в поставку не входят.
 
-## Repository layout
+## Структура репозитория
 
-- `promptforge/` — Python runtime
-- `packs/public-starter/` — active generic pack
-- `packs/core/` — minimal reference pack
-- `schemas/` — JSON schemas for receipts and manifests
-- `tests/` — offline regression suite
-- `docs/` — architecture, threat model, and API reference
+- `promptforge/` — Python runtime;
+- `packs/public-starter/` — активный универсальный pack;
+- `packs/core/` — минимальный эталонный pack;
+- `schemas/` — JSON schemas для receipts и manifests;
+- `tests/` — автономный набор регрессионных тестов;
+- `docs/` — архитектура, модель угроз и справочник API.
 
-## Requirements
+## Требования
 
-- Python 3.11+
-- Git repository
-- a private local state directory with `0700` permissions for execute and lifecycle flows
+- Python 3.11 или новее;
+- Git-репозиторий;
+- приватный локальный каталог с правами `0700` для выполнения задач и lifecycle-сценариев.
 
-The base runtime has no required third-party Python dependencies.
+Базовый runtime не требует сторонних Python-зависимостей.
 
-## Quick start
+## Быстрый старт
 
-From the repository root:
+Из корня репозитория выполните:
 
 ```bash
 python3 -m promptforge setup
@@ -42,18 +43,18 @@ python3 -m promptforge start
 python3 -m promptforge status
 ```
 
-Stop the local runtime:
+Чтобы остановить локальный runtime:
 
 ```bash
 python3 -m promptforge stop
 ```
 
-`setup` validates config, pack, catalog, and repository state, then prepares a private local manifest.
-`start` launches one offline supervisor process.
+`setup` проверяет конфигурацию, pack, каталог и состояние репозитория, затем создаёт приватный локальный manifest.
+`start` запускает один автономный supervisor process.
 
-## Preview-first usage
+## Сначала предварительный просмотр
 
-Preview does not need credentials and does not modify files:
+Предварительный просмотр не требует credentials и не изменяет файлы:
 
 ```bash
 python3 -m promptforge work \
@@ -61,13 +62,13 @@ python3 -m promptforge work \
   --task-kind review.changed-files
 ```
 
-Natural-language intake:
+Ввод задачи на естественном языке:
 
 ```bash
 printf '%s' 'сделай ревью изменений' | python3 -m promptforge ask --principal-id engineer-local
 ```
 
-## Execute changed-files review
+## Выполнение ревью изменённых файлов
 
 ```bash
 chmod 700 /absolute/private/promptforge-state
@@ -84,53 +85,53 @@ python3 -m promptforge work \
   --state-root /absolute/private/promptforge-state
 ```
 
-Review scope is always explicit. Raw diffs are not stored in durable evidence.
+Область ревью всегда задаётся явно. Исходные diff не сохраняются в долговременных evidence.
 
-## Default demo identities
+## Демонстрационные пользователи
 
-- `owner-local`
-- `maintainer-local`
-- `engineer-local`
-- `analyst-local`
+- `owner-local`;
+- `maintainer-local`;
+- `engineer-local`;
+- `analyst-local`.
 
-These defaults live in `config/local-auth.json` and `config/governance.json`. Replace them for your own team before
-using the repository in a production-like environment.
+Они описаны в `config/local-auth.json` и `config/governance.json`. Перед использованием в среде, близкой к
+production, замените их пользователями своей команды.
 
-## Public starter routes
+## Маршруты стартовой версии
 
-- `review.changed-files`
-- `documentation.sync`
-- `confluence.search`
-- `jira.read`
-- `confluence.snapshot`
+- `review.changed-files`;
+- `documentation.sync`;
+- `confluence.search`;
+- `jira.read`;
+- `confluence.snapshot`.
 
-Route definitions live in `packs/public-starter/agent-catalog.yaml`.
+Маршруты определены в `packs/public-starter/agent-catalog.yaml`.
 
-## Optional external adapters
+## Необязательные внешние адаптеры
 
-The starter pack can use read-only Confluence, Jira, and Airflow adapters through explicit `PF_INTEGRATION_*`
-variables or a local state profile. Credentials must stay outside Git.
+Стартовый pack может использовать read-only адаптеры Confluence, Jira и Airflow через явные переменные
+`PF_INTEGRATION_*` или локальный профиль состояния. Credentials должны храниться вне Git.
 
-## Tests
+## Тестирование
 
 ```bash
 python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-## Packaging
+## Установка как пакета
 
 ```bash
 pip install -e .
 ```
 
-## Customizing for your team
+## Адаптация для своей команды
 
-1. Copy `packs/public-starter/` or `packs/core/`.
-2. Define your own `agent-catalog.yaml` and `task-intents.json`.
-3. Point `project-profile.yaml` at the new pack.
-4. Replace demo identities in `config/local-auth.json` and `config/governance.json`.
-5. Re-run the test suite.
+1. Скопируйте `packs/public-starter/` или `packs/core/`.
+2. Опишите свои `agent-catalog.yaml` и `task-intents.json`.
+3. Укажите новый pack в `project-profile.yaml`.
+4. Замените демонстрационных пользователей в `config/local-auth.json` и `config/governance.json`.
+5. Повторно запустите тесты.
 
-## License
+## Лицензия
 
-Apache-2.0. See [LICENSE](LICENSE).
+Проект распространяется по Apache License 2.0. Полный текст находится в [LICENSE](LICENSE).

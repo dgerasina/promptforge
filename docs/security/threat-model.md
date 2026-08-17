@@ -1,12 +1,12 @@
-# Threat model
+# Модель угроз
 
-Document version: `threat-model-v1`
+Версия документа: `threat-model-v1`
 
-Scope: repository-only single-host runtime, его конфигурация, локальное state и разрешённые corporate integrations.
-Метод: структурированный анализ assets, actors, trust boundaries, attack surfaces и abuse cases. Модель пересматривается
+Область: repository-only runtime на одном хосте, его конфигурация, локальное состояние и разрешённые корпоративные интеграции.
+Метод: структурированный анализ активов, участников, границ доверия, поверхностей атаки и сценариев злоупотребления. Модель пересматривается
 при изменении authentication, egress, adapters, rehydration, persistent state или administrative capabilities.
 
-## Assets
+## Активы
 
 - исходный код, repository metadata, инженерные документы и результаты tools;
 - secrets, signed sessions, audit keys и rehydration mappings;
@@ -14,7 +14,7 @@ Scope: repository-only single-host runtime, его конфигурация, л�
 - model/tool requests, transformed context, responses, token receipts и review evidence;
 - integrity локального audit, provenance, repository index и production documentation.
 
-## Actors
+## Участники
 
 - `owner-local` и `maintainer-local`: exact administrative identities;
 - engineer и analyst: рабочие роли с различными agent/skill catalogs;
@@ -22,18 +22,18 @@ Scope: repository-only single-host runtime, его конфигурация, л�
 - локальный runtime process и trusted adapters;
 - злоумышленник с доступом к CLI, dirty worktree, environment, локальному state либо ответу внешнего endpoint.
 
-## Trust boundaries
+## Границы доверия
 
-- user input → CLI/contracts;
-- CLI identity claim → signed authentication session;
-- tracked repository → validated config/profile/catalog;
-- raw corporate content → privacy and policy decision;
-- approved context → model/MCP adapter;
-- adapter response → size, identity, review and rehydration checks;
-- process memory → owner-private durable state;
-- generated docs → human-owned documentation and governance sync.
+- пользовательский ввод → CLI и контракты;
+- заявление identity через CLI → подписанная сессия аутентификации;
+- отслеживаемый репозиторий → проверенные конфигурация, профиль и каталог;
+- исходный корпоративный контент → решение privacy и policy;
+- разрешённый контекст → адаптер модели или MCP;
+- ответ адаптера → проверки размера, identity, ревью и rehydration;
+- память процесса → долговременное owner-private состояние;
+- сгенерированные документы → управляемая человеком документация и governance sync.
 
-## Attack surfaces
+## Поверхности атаки
 
 - path traversal, symlink swap, oversized files/diffs и malicious repository content;
 - principal/role spoofing, session tampering/replay и generic-role privilege escalation;
@@ -46,9 +46,9 @@ Scope: repository-only single-host runtime, его конфигурация, л�
 - token-budget manipulation, mandatory-context removal и forged usage receipts;
 - documentation overwrite, stale source binding и leakage in generated artifacts.
 
-## Abuse cases and controls
+## Сценарии злоупотребления и меры контроля
 
-| Abuse case | Preventive/detective controls | Verification |
+| Сценарий | Предупреждающие и обнаруживающие меры | Проверка |
 |---|---|---|
 | Caller подменяет identity | Signed session, registry lookup on every request, exact identity/role/project match | auth and unified-work tests |
 | Caller меняет локальный `git user.name` | Git identity маркируется `untrusted_git_claim`, `privileged=false`; admin actions требуют signed session/owner signature | identity/signing tests |
@@ -84,17 +84,17 @@ Scope: repository-only single-host runtime, его конфигурация, л�
 через `documentation.sync` либо offline `documentation.from-snapshot` с exact governance identity; legacy `docs-sync`
 отключена fail closed. `confluence.snapshot` является отдельным read-only task и не пишет в repository.
 
-## Security invariants
+## Инварианты безопасности
 
-- unknown identity, action, task, capability, classification or contract version fails closed;
-- raw prompts, responses, diffs, mappings, credentials and sessions are absent from durable evidence;
-- no external call occurs before authentication, policy, privacy and budget decisions;
+- неизвестные identity, action, task, capability, classification и версия контракта блокируются;
+- исходные prompts, responses, diffs, mappings, credentials и sessions отсутствуют в долговременных evidence;
+- внешний вызов не выполняется до решений authentication, policy, privacy и budget;
 - administrative actions доступны только exact `owner-local`/`maintainer-local` bindings;
-- preview has no effects; execute requires signed identity and explicit bounded scope;
+- preview не имеет побочных эффектов; execute требует подписанную identity и явно ограниченную область;
 - security PASS невозможен при failed probe, E2E failure, invalid audit or exceeded load threshold.
 - release acceptance невозможен при unknown required gate, config/source drift, failed portability или secret scan.
 
-## Residual risks
+## Остаточные риски
 
 Native Windows private state использует protected DACL `current SID + SYSTEM`, exact owner SID и запрет reparse/junction
 components через bundled PowerShell security helper. Path передаётся helper через process environment, не argv.
@@ -112,4 +112,4 @@ acceptance остаётся обязательным: mocked ACL tests на др
   mutations при незавершённой транзакции; это crash-recoverable single-host boundary, но не ACID multi-host transaction.
 
 Эти риски нельзя скрывать за статусом PASS. Изменение их acceptance требует отдельного governance решения и новой версии
-threat model.
+модели угроз.

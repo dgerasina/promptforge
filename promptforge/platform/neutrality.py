@@ -78,7 +78,7 @@ class NeutralityGate:
 
     def _files(self):
         for path in sorted(self.root.rglob("*")):
-            if "__pycache__" in path.parts or ".local-state" in path.parts:
+            if ".git" in path.parts or "__pycache__" in path.parts or ".local-state" in path.parts:
                 continue
             if path.is_symlink():
                 raise ValueError("neutrality tree must not contain symlinks")
