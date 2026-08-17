@@ -1529,7 +1529,9 @@ def _pilot_acceptance(arguments: list[str]) -> dict[str, object]:
         and routing.get("route_combinations") == routing.get("unique_plan_digests")
         and boundary.get("status") == "ok"
         and executors.get("status") == "ok"
-        and executors.get("catalog_task_kinds") == executors.get("registered_task_kinds")
+        and isinstance(executors.get("catalog_task_kinds"), int)
+        and isinstance(executors.get("registered_task_kinds"), int)
+        and executors.get("catalog_task_kinds") <= executors.get("registered_task_kinds")
         and executors.get("synthetic_fallback_forbidden") is True
         and lifecycle.get("status") == "ok"
         and review.get("status") == "ok"

@@ -11,7 +11,7 @@ from promptforge.platform.workspace import WorkspaceLifecycle
 
 
 PRODUCT = Path(__file__).resolve().parents[1]
-REPOSITORY = PRODUCT.parent
+REPOSITORY = PRODUCT
 
 
 class WorkspaceBootstrapTest(unittest.TestCase):

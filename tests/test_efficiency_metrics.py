@@ -144,10 +144,16 @@ class EfficiencyMetricsTest(unittest.TestCase):
         environment = {"PF_LOCAL_AUDIT_KEY_HEX": secrets.token_bytes(32).hex()}
         with tempfile.TemporaryDirectory() as directory, patch.dict(cli.os.environ, environment, clear=False):
             state = Path(directory).resolve()
-            result = _changed_review(
-                ["--path", ".gitignore", "--state-root", str(state)],
-                None, PRODUCT,
-            )
+            target = PRODUCT / ".gitignore"
+            original = target.read_text(encoding="utf-8")
+            try:
+                target.write_text(original + "\n# test review change\n", encoding="utf-8")
+                result = _changed_review(
+                    ["--path", ".gitignore", "--state-root", str(state)],
+                    None, PRODUCT,
+                )
+            finally:
+                target.write_text(original, encoding="utf-8")
             key = cli.hmac.new(
                 bytes.fromhex(environment["PF_LOCAL_AUDIT_KEY_HEX"]),
                 b"promptforge-efficiency-metrics-v1", cli.hashlib.sha256,

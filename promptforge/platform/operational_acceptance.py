@@ -213,7 +213,7 @@ class OperationalAcceptanceRunner:
             initial = lifecycle.start()
             readme = product / "README.md"
             readme.write_text(readme.read_text(encoding="utf-8") + "\n", encoding="utf-8")
-            self._git(repository, "add", "promptforge/README.md")
+            self._git(repository, "add", str(readme.relative_to(repository)))
             self._git(repository, "commit", "-qm", "test: simulate master update")
             blocked = lifecycle.doctor()["status"] == "blocked"
             try:
@@ -264,7 +264,7 @@ class OperationalAcceptanceRunner:
         repository.mkdir()
         shutil.copytree(
             self.product_root, product,
-            ignore=shutil.ignore_patterns("__pycache__", "*.pyc", ".DS_Store"),
+            ignore=shutil.ignore_patterns(".git", "__pycache__", "*.pyc", ".DS_Store"),
         )
         (product / "project-profile.yaml").write_text(json.dumps({
             "schema_version": "1.0", "profile_id": "portable-operations-drill",

@@ -803,14 +803,19 @@ class AgentExecutionRegistry:
             raise PermissionError("agent executor is not registered")
         if tuple(executor.required_capabilities) != tuple(context.route.required_capabilities):
             raise PermissionError("agent executor capability drift")
-        if len(context.route.skills) != 1:
+        release = None
+        if context.route.skills:
+            if len(context.route.skills) != 1:
+                raise PermissionError("agent execution requires one approved skill")
+            release = self.releases.get(context.route.skills[0])
+            if release is None or release.status != "approved" or not release.integrity_verified:
+                raise PermissionError("agent execution skill is not approved")
+            self._validate_inputs(release, request.inputs)
+        elif load_project_profile(self.repository / "project-profile.yaml").skill_approvals is not None:
             raise PermissionError("agent execution requires one approved skill")
-        release = self.releases.get(context.route.skills[0])
-        if release is None or release.status != "approved" or not release.integrity_verified:
-            raise PermissionError("agent execution skill is not approved")
-        self._validate_inputs(release, request.inputs)
         result = executor.execute(request, context)
-        if result.task_kind != request.task_kind or result.skill_ref != context.route.skills[0]:
+        expected_skill_ref = context.route.skills[0] if context.route.skills else ""
+        if result.task_kind != request.task_kind or result.skill_ref != expected_skill_ref:
             raise RuntimeError("agent executor returned unbound result")
         if result.side_effect and not executor.mutates_repository:
             raise RuntimeError("agent executor side effect contract mismatch")
@@ -822,7 +827,7 @@ class AgentExecutionRegistry:
         if self.metrics is not None:
             findings = _count_review_findings(result.output)
             self.metrics.append(EfficiencyMetricEvent(
-                agents_invoked=1, skills_invoked=1, review_findings=findings, runs=1,
+                agents_invoked=1, skills_invoked=1 if context.route.skills else 0, review_findings=findings, runs=1,
                 first_run_successes=1 if result.status == "completed" else 0,
             ))
         return result
